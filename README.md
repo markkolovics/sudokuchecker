@@ -6,7 +6,7 @@ Create a java based command line tool for validating a standard 9x9 Sudoku puzzl
 Command line: `validate.bat puzzleName.txt`
 
 File format: CSV format each line representing a row e.g.: 
-
+```
  1,2,3,4,5,6,7,8,9 
  1,2,3,4,5,6,7,8,9 
  1,2,3,4,5,6,7,8,9 
@@ -16,7 +16,7 @@ File format: CSV format each line representing a row e.g.:
  1,2,3,4,5,6,7,8,9 
  1,2,3,4,5,6,7,8,9 
  1,2,3,4,5,6,7,8,9 
-
+```
 The program should print **VALID** or **INVALID** on `stdout` with the error text (in case of an invalid solution or file) and an appropriate status code. 
  
 There should be unit tests covering a range of error conditions and the project should be maven based. 
