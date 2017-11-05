@@ -77,9 +77,11 @@ public final class SudokuChecker {
 
 		int exitStatus = 0;
 		try {
-			LOGGER.info("Sudokuchecker started.");
+			
 			// Default loglevel is OFF
 			setLogLevel(Level.OFF);
+			
+			LOGGER.info("Sudokuchecker started.");
 
 			// Environment variable check
 			checkEnvironmentVariables();
