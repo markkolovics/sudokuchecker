@@ -44,16 +44,21 @@ public class Board {
 	 * @throws BoardException
 	 */
 	public Board(final int[][] sudokuMatrix) throws BoardException {
-		LOGGER.info("Board init, starts.");
+		
+		LOGGER.log(Level.INFO,"Board init, starts.");
+		
 		this.sudokuMatrix = sudokuMatrix;
 		this.maxValue = 9;
 		this.boxWidth = 3;
-		LOGGER.log(Level.INFO, "Board init, maxValue= %s", this.maxValue);
+		
+		LOGGER.log(Level.INFO, "Board init, maxValue= " + this.maxValue);
+		
 		populateBoard(sudokuMatrix);
-		if (LOGGER.isLoggable(Level.INFO)) {
-			LOGGER.info(prettyPrint());
-		}
-		LOGGER.info("Board init, done.");
+		
+		
+		LOGGER.log(Level.INFO,prettyPrint());
+		
+		LOGGER.log(Level.INFO,"Board init, done.");
 	}
 
 	/**
@@ -69,18 +74,18 @@ public class Board {
 	 */
 	private void populateBoard(final int[][] matrix) throws BoardException {
 		try {
-			LOGGER.info("Board population, starts.");
+			LOGGER.log(Level.INFO,"Board population, starts.");
 			// rows
 			for (int i = 0; i < maxValue; i++) {
 				BoardSection section = new BoardRow(matrix, i);
-				LOGGER.log(Level.INFO, "Board row added: %s", section.sectionCode);
+				LOGGER.log(Level.INFO, "Board row added: "+ section.sectionCode);
 				sectionList.add(section);
 			}
 
 			// columns
 			for (int i = 0; i < maxValue; i++) {
 				BoardSection section = new BoardColumn(matrix, i);
-				LOGGER.log(Level.INFO, "Board column added: %s", section.sectionCode);
+				LOGGER.log(Level.INFO, "Board column added: " + section.sectionCode);
 				sectionList.add(section);
 			}
 
@@ -88,13 +93,14 @@ public class Board {
 			for (int i = 0; i < boxWidth; i++) {
 				for (int j = 0; j < boxWidth; j++) {
 					BoardSection section = new BoardBox(matrix, i, j, boxWidth);
-					LOGGER.log(Level.INFO, "Board box added: %s", section.sectionCode);
+					
+					LOGGER.log(Level.INFO, "Board box added: " + section.sectionCode);
 					sectionList.add(section);
 				}
 			}
-			LOGGER.info("Board population, done.");
+			LOGGER.log(Level.INFO,"Board population, done.");
 		} catch (Exception e) {
-			LOGGER.severe("Validation error:" + e.getMessage());
+			LOGGER.log(Level.SEVERE,"Validation error:" + e.getMessage());
 			throw new BoardException(e.getMessage());
 		}
 

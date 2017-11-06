@@ -3,6 +3,7 @@ package com.mark.sudokuchecker.loader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
@@ -15,8 +16,8 @@ import java.util.stream.Stream;
 public class Loader {
 	private static final Logger LOGGER = Logger.getLogger(Loader.class.getName());
 
-	private final int maxValue = 9;
-	private final int minValue = 1;
+	private static final int maxValue = 9;
+	private static final int minValue = 1;
 
 	private final String fileName;
 	
@@ -63,7 +64,7 @@ public class Loader {
 		int[][] result = new int[maxValue][maxValue];
 
 		if (stringArray == null || stringArray.length < result.length) {
-			LOGGER.severe("Loading error: not enough rows (" + stringArray.length + "), expected " + result.length);
+			LOGGER.log(Level.SEVERE,"Loading error: not enough rows (" + stringArray.length + "), expected " + result.length);
 			throw new LoaderException(
 					"Loading error: not enough rows (" + stringArray.length + "), expected " + result.length);
 		} else if (stringArray.length > result.length) {
