@@ -23,7 +23,7 @@ public class Validation {
 	 * @param xclass
 	 *            the <tt>ValidationRule<tt/> class which has to be use for validation
 	 * @return <tt>ValidationResult</tt> which contains the result of the validation
-	 * @throws ValidationException 
+	 * @throws ValidationException  
 	 */
 	public ValidationResult validate(Board board, Class<? extends ValidationRule> xclass) throws ValidationException {
 

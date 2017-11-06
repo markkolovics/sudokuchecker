@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -44,21 +43,20 @@ public class Board {
 	 * @throws BoardException
 	 */
 	public Board(final int[][] sudokuMatrix) throws BoardException {
-		
-		LOGGER.log(Level.INFO,"Board init, starts.");
-		
+
+		LOGGER.info("Board init, starts.");
+
 		this.sudokuMatrix = sudokuMatrix;
 		this.maxValue = 9;
 		this.boxWidth = 3;
-		
-		LOGGER.log(Level.INFO, "Board init, maxValue= " + this.maxValue);
-		
+
+		LOGGER.info(String.format("Board init, maxValue = %s", this.maxValue));
+
 		populateBoard(sudokuMatrix);
-		
-		
-		LOGGER.log(Level.INFO,prettyPrint());
-		
-		LOGGER.log(Level.INFO,"Board init, done.");
+
+		LOGGER.info(prettyPrint());
+
+		LOGGER.info("Board init, done.");
 	}
 
 	/**
@@ -74,18 +72,18 @@ public class Board {
 	 */
 	private void populateBoard(final int[][] matrix) throws BoardException {
 		try {
-			LOGGER.log(Level.INFO,"Board population, starts.");
+			LOGGER.info("Board population, starts.");
 			// rows
 			for (int i = 0; i < maxValue; i++) {
 				BoardSection section = new BoardRow(matrix, i);
-				LOGGER.log(Level.INFO, "Board row added: "+ section.sectionCode);
+				LOGGER.info(String.format("Board row added: %s", section.sectionCode));
 				sectionList.add(section);
 			}
 
 			// columns
 			for (int i = 0; i < maxValue; i++) {
 				BoardSection section = new BoardColumn(matrix, i);
-				LOGGER.log(Level.INFO, "Board column added: " + section.sectionCode);
+				LOGGER.info(String.format("Board column added: %s", section.sectionCode));
 				sectionList.add(section);
 			}
 
@@ -93,14 +91,14 @@ public class Board {
 			for (int i = 0; i < boxWidth; i++) {
 				for (int j = 0; j < boxWidth; j++) {
 					BoardSection section = new BoardBox(matrix, i, j, boxWidth);
-					
-					LOGGER.log(Level.INFO, "Board box added: " + section.sectionCode);
+
+					LOGGER.info(String.format("Board box added: %s", section.sectionCode));
 					sectionList.add(section);
 				}
 			}
-			LOGGER.log(Level.INFO,"Board population, done.");
+			LOGGER.info("Board population, done.");
 		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE,"Validation error:" + e.getMessage());
+			LOGGER.severe("Validation error:" + e.getMessage());
 			throw new BoardException(e.getMessage());
 		}
 
@@ -126,9 +124,7 @@ public class Board {
 	public Map<String, int[]> getSectionMap() {
 		HashMap<String, int[]> resultSectionMap = new HashMap<>();
 
-		sectionList.forEach(section ->
-			resultSectionMap.put(section.getSectionCode(), section.getValueArray())
-		);
+		sectionList.forEach(section -> resultSectionMap.put(section.getSectionCode(), section.getValueArray()));
 
 		return resultSectionMap;
 	}
@@ -150,7 +146,8 @@ public class Board {
 			}
 			boxDelimiter.append("+");
 		}
-
+		
+		printOut.append('\n');
 		printOut.append(boxDelimiter).append('\n');
 		for (int i = 0; i < maxValue; i++) {
 			printOut.append(columnDelimiter);

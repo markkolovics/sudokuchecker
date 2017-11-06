@@ -22,7 +22,7 @@ public class BoardTest {
 		rootLogger.setLevel(Level.OFF);
 		for (Handler h : rootLogger.getHandlers()) {
 		    h.setLevel(Level.OFF);
-		}		
+		}
 	}
 	
 	@Test

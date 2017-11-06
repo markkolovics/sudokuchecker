@@ -20,6 +20,10 @@ import com.mark.sudokuchecker.validation.ValidationRuleBitwise;
 import com.mark.sudokuchecker.validation.ValidationStatus;
 
 /**
+ * Sudoku Checker Command Line Tool
+ * <p>
+ * This is a java based command line tool for validating a standard 9x9 Sudoku puzzle.
+ * 
  * @author mark
  *
  */
@@ -29,6 +33,11 @@ public final class SudokuChecker {
 
 	private static final String SUDOKU_CHECKER_LOGLEVEL = "SUDOKU_CHECKER_LOGLEVEL";
 
+	/**
+	 * Set the log level for all the loggers
+	 * 
+	 * @param logLevel
+	 */
 	private static void setLogLevel(Level logLevel) {
 		Logger rootLogger = LogManager.getLogManager().getLogger("");
 		rootLogger.setLevel(logLevel);
@@ -37,6 +46,12 @@ public final class SudokuChecker {
 		}
 	}
 
+	/**
+	 * Checks and sets the environment parameters.
+	 * 
+	 * SUDOKU_CHECKER_LOGLEVEL - sets all loggers to the set level, default:OFF
+	 * 
+	 */
 	private static void checkEnvironmentVariables() {
 		Map<String, String> env = System.getenv();
 
@@ -73,12 +88,12 @@ public final class SudokuChecker {
 	}
 
 	/**
-	 * Command Line Sudoku Checker Application
+	 * Sudoku Checker Command Line Tool
 	 * 
 	 * Workflow Load CSV -> Populate Board -> Validate -> Display Results
 	 * 
 	 * @param args
-	 *            command line parameters
+	 *            command line parameters, <filename>, -h or --help parameters aree accepted
 	 */
 	public static void main(String[] args) {
 
