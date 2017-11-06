@@ -2,6 +2,9 @@ package com.mark.sudokuchecker.board;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -45,9 +48,11 @@ public class Board {
 		this.sudokuMatrix = sudokuMatrix;
 		this.maxValue = 9;
 		this.boxWidth = 3;
-		LOGGER.info("Board init, maxValue=" + this.maxValue);
+		LOGGER.log(Level.INFO, "Board init, maxValue= %s", this.maxValue);
 		populateBoard(sudokuMatrix);
-		LOGGER.info(prettyPrint());
+		if (LOGGER.isLoggable(Level.INFO)) {
+			LOGGER.info(prettyPrint());
+		}
 		LOGGER.info("Board init, done.");
 	}
 
@@ -68,14 +73,14 @@ public class Board {
 			// rows
 			for (int i = 0; i < maxValue; i++) {
 				BoardSection section = new BoardRow(matrix, i);
-				LOGGER.info("Board row added:" + section.sectionCode);
+				LOGGER.log(Level.INFO, "Board row added: %s", section.sectionCode);
 				sectionList.add(section);
 			}
 
 			// columns
 			for (int i = 0; i < maxValue; i++) {
 				BoardSection section = new BoardColumn(matrix, i);
-				LOGGER.info("Board row added:" + section.sectionCode);
+				LOGGER.log(Level.INFO, "Board column added: %s", section.sectionCode);
 				sectionList.add(section);
 			}
 
@@ -83,7 +88,7 @@ public class Board {
 			for (int i = 0; i < boxWidth; i++) {
 				for (int j = 0; j < boxWidth; j++) {
 					BoardSection section = new BoardBox(matrix, i, j, boxWidth);
-					LOGGER.info("Board row added:" + section.sectionCode);
+					LOGGER.log(Level.INFO, "Board box added: %s", section.sectionCode);
 					sectionList.add(section);
 				}
 			}
@@ -103,7 +108,7 @@ public class Board {
 	 */
 
 	@SuppressWarnings("unchecked")
-	public ArrayList<BoardSection> getSectionList() {
+	public List<BoardSection> getSectionList() {
 		return (ArrayList<BoardSection>) sectionList.clone();
 	}
 
@@ -112,12 +117,12 @@ public class Board {
 	 * 
 	 * @return the HashMap with the code(K) and valueArray(V) of sections
 	 */
-	public HashMap<String, int[]> getSectionMap() {
+	public Map<String, int[]> getSectionMap() {
 		HashMap<String, int[]> resultSectionMap = new HashMap<>();
 
-		sectionList.forEach(section -> {
-			resultSectionMap.put(section.getSectionCode(), section.getValueArray());
-		});
+		sectionList.forEach(section ->
+			resultSectionMap.put(section.getSectionCode(), section.getValueArray())
+		);
 
 		return resultSectionMap;
 	}
@@ -131,12 +136,13 @@ public class Board {
 		String columnDelimiter = "|";
 		int digits = Integer.toString(maxValue).length();
 
-		String boxDelimiter = "+";
+		StringBuilder boxDelimiter = new StringBuilder();
+		boxDelimiter.append("+");
 		for (int i = 0; i < boxWidth; i++) {
 			for (int j = 0; j < (boxWidth * (digits + 1) - 1); j++) {
-				boxDelimiter += "-";
+				boxDelimiter.append("-");
 			}
-			boxDelimiter += "+";
+			boxDelimiter.append("+");
 		}
 
 		printOut.append(boxDelimiter).append('\n');

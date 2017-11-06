@@ -40,7 +40,7 @@ N | Description
 
 
 #### Usage and unit test
-The application is built as a maven project, to install follow these steps:
+The application is built as a maven project, to install please follow these steps:
 
 1.	Download and unzip the source to the destination folder or use `git pull` 
 2.	Run unit test with `mvn test`

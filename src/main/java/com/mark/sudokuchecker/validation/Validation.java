@@ -1,6 +1,6 @@
 package com.mark.sudokuchecker.validation;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.logging.Logger;
 
 import com.mark.sudokuchecker.board.Board;
@@ -28,7 +28,7 @@ public class Validation {
 	public ValidationResult validate(Board board, Class<? extends ValidationRule> xclass) throws ValidationException {
 
 		try {
-			HashMap<ValidationStatus, String> resultMap = new HashMap<>();
+			EnumMap<ValidationStatus, String> resultMap = new EnumMap<>(ValidationStatus.class);
 			// Rule instance
 			ValidationRule validationRule = xclass.newInstance();
 

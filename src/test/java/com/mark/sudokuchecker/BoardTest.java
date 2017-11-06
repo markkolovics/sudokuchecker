@@ -2,7 +2,7 @@ package com.mark.sudokuchecker;
 
 import static org.junit.Assert.assertArrayEquals;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -39,7 +39,7 @@ public class BoardTest {
 				{6,7,8,9,1,2,2,4,5}
 		};
 		Board board = new Board(sudoku);
-		HashMap<String, int[]> sudokuMap = board.getSectionMap();
+		Map<String, int[]> sudokuMap = board.getSectionMap();
 		
 		int[] expectedArrayR1 = {4,5,6,7,8,9,1,2,3};
 		assertArrayEquals("Row 1",expectedArrayR1, sudokuMap.get("R1"));

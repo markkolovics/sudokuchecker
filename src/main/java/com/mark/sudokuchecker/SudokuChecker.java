@@ -32,7 +32,6 @@ public final class SudokuChecker {
 	private static void setLogLevel(Level logLevel) {
 		Logger rootLogger = LogManager.getLogManager().getLogger("");
 		rootLogger.setLevel(logLevel);
-		// rootLogger.addHandler(new StreamHandler(System.out, new SimpleFormatter()));
 		for (Handler h : rootLogger.getHandlers()) {
 			h.setLevel(logLevel);
 		}
@@ -46,16 +45,24 @@ public final class SudokuChecker {
 				Level logLevel = Level.parse(env.get(SUDOKU_CHECKER_LOGLEVEL));
 				setLogLevel(logLevel);
 			} catch (Exception e) {
-				System.out.println("Invalid value for SUDOKU_CHECKER_LOGLEVEL environment variable: "
+				// Should be System.err since logging is off
+				System.err.println("Invalid value for SUDOKU_CHECKER_LOGLEVEL environment variable: "
 						+ env.get(SUDOKU_CHECKER_LOGLEVEL));
-				System.out.println(
+				System.err.println(
 						"Valid values: ALL, CONFIG, FINE, FINER, FINEST, INFO, SEVERE, WARNING, OFF (default).");
-				System.out.println("");
+				System.err.println("");
 			}
 		}
 	}
 
+	public static void printResult(ValidationStatus status, String reason) {
+		// Standard output
+		System.out.println(status);
+		System.out.println("Cause: " + reason);
+	}
+
 	public static void printHelp() {
+		// Standard output
 		System.out.println("Usage: sudokuchecker <filename>|-h|--help");
 		System.out.println("");
 		System.out.println(
@@ -77,10 +84,10 @@ public final class SudokuChecker {
 
 		int exitStatus = 0;
 		try {
-			
+
 			// Default loglevel is OFF
 			setLogLevel(Level.OFF);
-			
+
 			LOGGER.info("Sudokuchecker started.");
 
 			// Environment variable check
@@ -88,16 +95,14 @@ public final class SudokuChecker {
 
 			// Parameter checks only 1 but that is needed
 			if (args == null || args.length == 0) {
-				System.out.println(ValidationStatus.INVALID);
-				System.out.println("Cause: no filename parameter added.");
+				printResult(ValidationStatus.INVALID, "No filename parameter added.");
 				printHelp();
 				exitStatus = 1;
 			} else if (args.length > 1) {
-				System.out.println(ValidationStatus.INVALID);
-				System.out.println("Cause: too many parameters(" + args.length + ")");
+				printResult(ValidationStatus.INVALID, "Too many parameters(" + args.length + ")");
 				printHelp();
 				exitStatus = 2;
-			} else if (args[0].toLowerCase().equals("-h") || args[0].toLowerCase().equals("--help")) {
+			} else if (args[0].equalsIgnoreCase("-h") || args[0].equalsIgnoreCase("--help")) {
 				printHelp();
 				exitStatus = 0;
 			} else {
@@ -109,28 +114,23 @@ public final class SudokuChecker {
 				// Validation
 				ValidationResult result = new Validation().validate(board, ValidationRuleBitwise.class);
 
-				System.out.println(result.getStatus());
-				System.out.println("Cause: " + result.getStatusText());
+				printResult(result.getStatus(), result.getStatusText());
 
 				if (result.getStatus() == ValidationStatus.INVALID) {
 					exitStatus = 99;
 				}
 			}
 		} catch (LoaderException e) {
-			System.out.println(ValidationStatus.INVALID);
-			System.out.println("Cause: " + e.getMessage());
+			printResult(ValidationStatus.INVALID, e.getMessage());
 			exitStatus = 3;
 		} catch (BoardException e) {
-			System.out.println(ValidationStatus.INVALID);
-			System.out.println("Cause: " + e.getMessage());
+			printResult(ValidationStatus.INVALID, e.getMessage());
 			exitStatus = 4;
 		} catch (ValidationException e) {
-			System.out.println(ValidationStatus.INVALID);
-			System.out.println("Cause: " + e.getMessage());
+			printResult(ValidationStatus.INVALID, e.getMessage());
 			exitStatus = 5;
 		} catch (Exception e) {
-			System.out.println(ValidationStatus.INVALID);
-			System.out.println("Cause: " + e.getMessage());
+			printResult(ValidationStatus.INVALID, e.getMessage());
 			exitStatus = 98;
 		}
 		System.exit(exitStatus);

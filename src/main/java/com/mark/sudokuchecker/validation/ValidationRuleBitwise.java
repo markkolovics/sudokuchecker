@@ -23,7 +23,7 @@ public class ValidationRuleBitwise extends ValidationRule {
 	public ValidationStatus validate(final BoardSection section) {
 		int s = 0;
 		for (int i = 0; i < section.getValueArray().length; i++) {
-			int x = (int) Math.pow(2, section.getValueArray()[i] - 1);
+			int x = (int) Math.pow(2, (double)section.getValueArray()[i] - 1);
 
 			// If duplicated then return false, else set the bit.
 			if ((s & x) == x) {
